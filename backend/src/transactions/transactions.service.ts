@@ -29,7 +29,6 @@ export class TransactionsService {
   }): Promise<TransactionDocument> {
     await this.agentsService.findOne(data.listingAgentId);
     await this.agentsService.findOne(data.sellingAgentId);
-
     const transaction = new this.transactionModel({
       ...data,
       stage: TransactionStage.AGREEMENT,
@@ -59,7 +58,11 @@ export class TransactionsService {
   }
 
   async advanceStage(id: string): Promise<TransactionDocument> {
-    const transaction = await this.findOne(id);
+    const transaction = await this.transactionModel.findById(id).exec();
+
+    if (!transaction) {
+      throw new NotFoundException(`Transaction ${id} bulunamadı`);
+    }
 
     const stageOrder = [
       TransactionStage.AGREEMENT,
@@ -85,7 +88,13 @@ export class TransactionsService {
       );
     }
 
-    return transaction.save();
+    await transaction.save();
+
+    return this.transactionModel
+      .findById(id)
+      .populate('listingAgentId')
+      .populate('sellingAgentId')
+      .exec();
   }
 
   private calculateCommission(
