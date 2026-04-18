@@ -91,10 +91,10 @@ export class TransactionsService {
     await transaction.save();
 
     return this.transactionModel
-      .findById(id)
-      .populate('listingAgentId')
-      .populate('sellingAgentId')
-      .exec();
+  .findById(id)
+  .populate('listingAgentId')
+  .populate('sellingAgentId')
+  .exec() as Promise<TransactionDocument>;
   }
 
   private calculateCommission(
