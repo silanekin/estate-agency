@@ -7,7 +7,7 @@
     </div>
 
     <div v-if="store.loading" class="text-center py-12 text-gray-500">
-      Yukleniyor...
+      Loading...
     </div>
 
     <div v-else-if="store.currentTransaction">
@@ -25,20 +25,20 @@
         </div>
 
         <p class="text-gray-600 mb-4">
-          Toplam Komisyon:
+          Total Commission:
           <span class="font-semibold">
-            {{ store.currentTransaction.totalServiceFee.toLocaleString('tr-TR') }} TL
+            {{ store.currentTransaction.totalServiceFee.toLocaleString('en-US') }} TL
           </span>
         </p>
 
         <div class="grid grid-cols-2 gap-4 mb-4">
           <div class="bg-gray-50 rounded-lg p-4">
-            <p class="text-sm text-gray-500">Listeleyen Ajan</p>
+            <p class="text-sm text-gray-500">Listing Agent</p>
             <p class="font-semibold">{{ store.currentTransaction.listingAgentId?.name }}</p>
             <p class="text-sm text-gray-500">{{ store.currentTransaction.listingAgentId?.email }}</p>
           </div>
           <div class="bg-gray-50 rounded-lg p-4">
-            <p class="text-sm text-gray-500">Satan Ajan</p>
+            <p class="text-sm text-gray-500">Selling Agent</p>
             <p class="font-semibold">{{ store.currentTransaction.sellingAgentId?.name }}</p>
             <p class="text-sm text-gray-500">{{ store.currentTransaction.sellingAgentId?.email }}</p>
           </div>
@@ -50,17 +50,16 @@
             @click="advanceStage"
             class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
           >
-            Sonraki Asamaya Ilerlet
+            Advance to Next Stage
           </button>
           <span v-else class="text-green-600 font-medium">
-            Islem tamamlandi
+            Transaction completed
           </span>
         </div>
       </div>
 
-      <!-- Aşama Takibi -->
       <div class="bg-white rounded-lg shadow p-6 mb-6">
-        <h3 class="text-lg font-semibold mb-4">Asama Takibi</h3>
+        <h3 class="text-lg font-semibold mb-4">Stage Progress</h3>
         <div class="flex items-center justify-between">
           <div
             v-for="(stage, index) in stages"
@@ -95,36 +94,35 @@
         </div>
       </div>
 
-      <!-- Komisyon Detayı -->
       <div
         v-if="store.currentTransaction.commission"
         class="bg-white rounded-lg shadow p-6"
       >
-        <h3 class="text-lg font-semibold mb-4">Komisyon Dagilimi</h3>
+        <h3 class="text-lg font-semibold mb-4">Commission Breakdown</h3>
         <div class="grid grid-cols-3 gap-4">
           <div class="bg-blue-50 rounded-lg p-4 text-center">
-            <p class="text-sm text-gray-500 mb-1">Sirket</p>
+            <p class="text-sm text-gray-500 mb-1">Agency</p>
             <p class="text-2xl font-bold text-blue-600">
-              {{ store.currentTransaction.commission.agencyShare.toLocaleString('tr-TR') }} TL
+              {{ store.currentTransaction.commission.agencyShare.toLocaleString('en-US') }} TL
             </p>
-            <p class="text-xs text-gray-400 mt-1">%50</p>
+            <p class="text-xs text-gray-400 mt-1">50%</p>
           </div>
           <div class="bg-green-50 rounded-lg p-4 text-center">
-            <p class="text-sm text-gray-500 mb-1">Listeleyen Ajan</p>
+            <p class="text-sm text-gray-500 mb-1">Listing Agent</p>
             <p class="text-2xl font-bold text-green-600">
-              {{ store.currentTransaction.commission.listingAgentShare.toLocaleString('tr-TR') }} TL
+              {{ store.currentTransaction.commission.listingAgentShare.toLocaleString('en-US') }} TL
             </p>
             <p class="text-xs text-gray-400 mt-1">
-              {{ store.currentTransaction.commission.isSameAgent ? '%50' : '%25' }}
+              {{ store.currentTransaction.commission.isSameAgent ? '50%' : '25%' }}
             </p>
           </div>
           <div class="bg-purple-50 rounded-lg p-4 text-center">
-            <p class="text-sm text-gray-500 mb-1">Satan Ajan</p>
+            <p class="text-sm text-gray-500 mb-1">Selling Agent</p>
             <p class="text-2xl font-bold text-purple-600">
-              {{ store.currentTransaction.commission.sellingAgentShare.toLocaleString('tr-TR') }} TL
+              {{ store.currentTransaction.commission.sellingAgentShare.toLocaleString('en-US') }} TL
             </p>
             <p class="text-xs text-gray-400 mt-1">
-              {{ store.currentTransaction.commission.isSameAgent ? '%0 (ayni kisi)' : '%25' }}
+              {{ store.currentTransaction.commission.isSameAgent ? '0% (same agent)' : '25%' }}
             </p>
           </div>
         </div>
@@ -138,10 +136,10 @@ const route = useRoute()
 const store = useTransactionStore()
 
 const stages = [
-  { key: 'agreement', label: 'Anlasma' },
-  { key: 'earnest_money', label: 'Kapora' },
-  { key: 'title_deed', label: 'Tapu' },
-  { key: 'completed', label: 'Tamamlandi' },
+  { key: 'agreement', label: 'Agreement' },
+  { key: 'earnest_money', label: 'Earnest Money' },
+  { key: 'title_deed', label: 'Title Deed' },
+  { key: 'completed', label: 'Completed' },
 ]
 
 onMounted(async () => {
@@ -154,10 +152,10 @@ async function advanceStage() {
 
 function stageLabel(stage) {
   const labels = {
-    agreement: 'Anlasma',
-    earnest_money: 'Kapora',
-    title_deed: 'Tapu',
-    completed: 'Tamamlandi',
+    agreement: 'Agreement',
+    earnest_money: 'Earnest Money',
+    title_deed: 'Title Deed',
+    completed: 'Completed',
   }
   return labels[stage] || stage
 }

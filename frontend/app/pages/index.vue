@@ -1,29 +1,29 @@
 <template>
   <div>
     <div class="flex items-center justify-between mb-6">
-      <h2 class="text-2xl font-bold text-gray-800">Islemler</h2>
+      <h2 class="text-2xl font-bold text-gray-800">Transactions</h2>
       <button
         @click="showForm = !showForm"
         class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
       >
-        + Yeni Islem
+        + New Transaction
       </button>
     </div>
 
     <div v-if="showForm" class="bg-white rounded-lg shadow p-6 mb-6">
-      <h3 class="text-lg font-semibold mb-4">Yeni Islem Olustur</h3>
+      <h3 class="text-lg font-semibold mb-4">Create New Transaction</h3>
       <div class="grid grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Mulk Adresi</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Property Address</label>
           <input
             v-model="form.propertyAddress"
             type="text"
             class="w-full border rounded-lg px-3 py-2"
-            placeholder="Ataturk Cad. No:5"
+            placeholder="123 Main St"
           />
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Toplam Komisyon (TL)</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Total Service Fee</label>
           <input
             v-model="form.totalServiceFee"
             type="number"
@@ -32,18 +32,18 @@
           />
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Listeleyen Ajan</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Listing Agent</label>
           <select v-model="form.listingAgentId" class="w-full border rounded-lg px-3 py-2">
-            <option value="">Sec...</option>
+            <option value="">Select...</option>
             <option v-for="agent in store.agents" :key="agent._id" :value="agent._id">
               {{ agent.name }}
             </option>
           </select>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Satan Ajan</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Selling Agent</label>
           <select v-model="form.sellingAgentId" class="w-full border rounded-lg px-3 py-2">
-            <option value="">Sec...</option>
+            <option value="">Select...</option>
             <option v-for="agent in store.agents" :key="agent._id" :value="agent._id">
               {{ agent.name }}
             </option>
@@ -55,18 +55,18 @@
           @click="createTransaction"
           class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
         >
-          Olustur
+          Create
         </button>
         <button
           @click="showForm = false"
           class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300"
         >
-          Iptal
+          Cancel
         </button>
       </div>
     </div>
 
-    <div v-if="store.loading" class="text-center py-12 text-gray-500">Yukleniyor...</div>
+    <div v-if="store.loading" class="text-center py-12 text-gray-500">Loading...</div>
 
     <div v-else class="grid gap-4">
       <div
@@ -78,7 +78,7 @@
           <div>
             <h3 class="font-semibold text-gray-800">{{ transaction.propertyAddress }}</h3>
             <p class="text-sm text-gray-500 mt-1">
-              {{ transaction.totalServiceFee.toLocaleString('tr-TR') }} TL
+              {{ transaction.totalServiceFee.toLocaleString('en-US') }} TL
             </p>
           </div>
           <div class="flex items-center gap-4">
@@ -90,20 +90,20 @@
               @click="advanceStage(transaction._id)"
               class="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-blue-700"
             >
-              Ilerlet
+              Advance →
             </button>
             <NuxtLink
               :to="`/transactions/${transaction._id}`"
               class="text-blue-600 text-sm hover:underline"
             >
-              Detay
+              Detail
             </NuxtLink>
           </div>
         </div>
       </div>
 
       <div v-if="store.transactions.length === 0" class="text-center py-12 text-gray-400">
-        Henuz islem yok. Yeni bir islem olusturun.
+        No transactions yet. Create a new one.
       </div>
     </div>
   </div>
@@ -140,10 +140,10 @@ async function advanceStage(id) {
 
 function stageLabel(stage) {
   const labels = {
-    agreement: 'Anlasma',
-    earnest_money: 'Kapora',
-    title_deed: 'Tapu',
-    completed: 'Tamamlandi',
+    agreement: 'Agreement',
+    earnest_money: 'Earnest Money',
+    title_deed: 'Title Deed',
+    completed: 'Completed',
   }
   return labels[stage] || stage
 }

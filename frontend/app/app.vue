@@ -5,7 +5,7 @@
         <h1 class="text-xl font-bold text-gray-800">🏠 Estate Agency</h1>
         <div class="flex gap-4">
           <NuxtLink to="/" class="text-gray-600 hover:text-gray-900">Dashboard</NuxtLink>
-          <NuxtLink to="/agents" class="text-gray-600 hover:text-gray-900">Ajanlar</NuxtLink>
+          <NuxtLink to="/agents" class="text-gray-600 hover:text-gray-900">Agents</NuxtLink>
         </div>
       </div>
     </nav>
