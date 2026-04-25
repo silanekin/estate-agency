@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      apiBase: 'https://estate-agency-production.up.railway.app',
+      apiBase: 'https://estate-agency-wmjq.onrender.com',
     },
   },
 })
